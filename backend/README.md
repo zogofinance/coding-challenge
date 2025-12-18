@@ -4,4 +4,7 @@
   - run the code
   - read the docs at http://localhost:3000/docs/
   - Complete the change order endpoint
+  - Complete the Bulk deletion endpoint
   - find and fix any bugs present in existing code
+- stretch goal
+  - Add pagination to the get tasks request

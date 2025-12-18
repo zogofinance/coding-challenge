@@ -79,6 +79,10 @@ module.exports = (Task) => {
     res.json({ message: "needs implemented" });
   });
 
+  router.delete("/completed", async (req, res) => {
+    res.json({ message: "needs implemented" });
+  });
+
   // POST /api/task/edit - Edit a task description
   router.post("/edit", async (req, res) => {
     try {

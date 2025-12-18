@@ -200,6 +200,35 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+  /api/task/completed:
+    delete:
+      summary: Delete all completed tasks
+      description: Permanently removes all tasks that have a date_completed value set
+      operationId: deleteCompletedTasks
+      tags:
+        - Tasks
+      responses:
+        "200":
+          description: Completed tasks deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Deleted 5 completed tasks
+                  count:
+                    type: integer
+                    description: Number of tasks deleted
+                    example: 5
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
   /api/task/edit:
     post:
       summary: Edit a task description

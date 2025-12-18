@@ -75,7 +75,6 @@ module.exports = (Task) => {
     }
   });
 
-  // POST /api/task/order?order=[list of ids] - Reorder tasks
   router.post("/order", async (req, res) => {
     res.json({ message: "needs implemented" });
   });
@@ -85,12 +84,10 @@ module.exports = (Task) => {
     try {
       const { old_task_description, new_task_description } = req.body;
       if (!old_task_description || !new_task_description) {
-        return res
-          .status(400)
-          .json({
-            error:
-              "Both old_task_description and new_task_description are required",
-          });
+        return res.status(400).json({
+          error:
+            "Both old_task_description and new_task_description are required",
+        });
       }
 
       const task = await Task.findOne({

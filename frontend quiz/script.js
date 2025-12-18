@@ -106,8 +106,8 @@ function processURLParameters() {
 
 async function createOrUpdateUser(userId, locale) {
   const apiUrl = "https://api.zogo.com/sdk/user";
-  const username = "Vi3vsMFv";
-  const password = "4VVNcd9F";
+  const api_id = "Vi3vsMFv";
+  const api_secret = "4VVNcd9F";
 
   const midpoint = Math.ceil(userId.length / 2);
   const firstName = userId.substring(0, midpoint);
@@ -137,7 +137,7 @@ async function createOrUpdateUser(userId, locale) {
     console.log("Making API request to:", apiUrl);
     console.log("Request body:", requestBody);
 
-    const credentials = btoa(`${username}:${password}`);
+    const credentials = btoa(`${api_id}:${api_secret}`);
 
     const response = await fetch(apiUrl, {
       method: "POST",

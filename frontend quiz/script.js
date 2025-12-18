@@ -105,7 +105,7 @@ function processURLParameters() {
 }
 
 async function createOrUpdateUser(userId, locale) {
-  const apiUrl = "https://api.zogo.com/sdk/user";
+  const apiUrl = "http://api.zogo.com/sdk/user";
   const api_id = "Vi3vsMFv";
   const api_secret = "4VVNcd9F";
 

@@ -1,0 +1,7 @@
+- to get started make sure you have npm installed
+- run `npm i` in the project
+- complete the following tasks
+  - run the code
+  - read the docs at http://localhost:3000/docs/
+  - Complete the change order endpoint
+  - find and fix any bugs present in existing code

@@ -1,2 +1,5 @@
 # coding-challenge
-This is a simple full stack coding challenge meant to help a candidate prove their knowledge beyond just talking about it (and without doing dumb things like inverting a binary tree)
+
+To get started, pull this repo and create your own branch
+
+backend and frontend are there own projects/problems, so please read the README in each of them to get started

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Financial Education Center - Learn & Grow</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://sdk-cdn.zogo.com/zogo-360-integration-latest.min.js"></script>
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-content">
+        <div class="logo-section">
+          <div class="logo">MB</div>
+          <h1>Financial Education Center</h1>
+        </div>
+        <div class="user-info">
+          <span>Welcome back!</span>
+          <div class="user-avatar">
+            <svg width="32" height="32" viewBox="0 0 48 32">
+              <svg x="0" y="0" width="48" height="32">
+                <path
+                  d="M24 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                  fill="white"
+                />
+              </svg>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="main-content">
+      <aside class="sidebar">
+        <nav>
+          <div class="nav-section">
+            <div class="nav-title">Learning Paths</div>
+            <a href="#" class="nav-item active">
+              <span class="nav-icon">📚</span>
+              <span>All Courses</span>
+            </a>
+            <a href="#" class="nav-item">
+              <span class="nav-icon">💰</span>
+              <span>Banking Basics</span>
+            </a>
+            <a href="#" class="nav-item">
+              <span class="nav-icon">💳</span>
+              <span>Credit & Loans</span>
+            </a>
+            <a href="#" class="nav-item">
+              <span class="nav-icon">📈</span>
+              <span>Investing 101</span>
+            </a>
+            <a href="#" class="nav-item">
+              <span class="nav-icon">🏠</span>
+              <span>Home Ownership</span>
+            </a>
+          </div>
+
+          <div class="nav-section">
+            <div class="nav-title">Your Progress</div>
+            <a href="#" class="nav-item">
+              <span class="nav-icon">🏆</span>
+              <span>Achievements</span>
+            </a>
+            <a href="#" class="nav-item">
+              <span class="nav-icon">📊</span>
+              <span>Learning Stats</span>
+            </a>
+            <a href="#" class="nav-item">
+              <span class="nav-icon">🎯</span>
+              <span>Goals</span>
+            </a>
+          </div>
+        </nav>
+      </aside>
+
+      <main class="content-area">
+        <div class="content-header">
+          <div class="breadcrumb">
+            <span>Home</span>
+            <span class="breadcrumb-separator">›</span>
+            <span>Learning Center</span>
+            <span class="breadcrumb-separator">›</span>
+            <span>Interactive Courses</span>
+          </div>
+          <h2 class="content-title">Start Your Financial Journey</h2>
+          <p class="content-description">
+            Explore interactive lessons designed to help you master personal
+            finance, from basic banking to advanced investment strategies.
+          </p>
+        </div>
+
+        <div class="zogo-wrapper">
+          <div id="zogo-container" class="zogo-container">
+            <zogo-360 id="zogo-component" auto-init="false"></zogo-360>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div class="fab">?</div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

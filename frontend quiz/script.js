@@ -9,41 +9,12 @@ const messageStats = {
   byType: {},
 };
 
-function getURLParameters() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const params = {};
-
-  for (const [key, value] of urlParams) {
-    params[key] = value;
-  }
-
-  return params;
-}
-
-function saveParametersToStorage(params) {
-  if (Object.keys(params).length > 0) {
-    localStorage.setItem("zogoUrlParams", JSON.stringify(params));
-    console.log("Parameters saved to localStorage:", params);
-  }
-}
-
-function loadParametersFromStorage() {
-  const stored = localStorage.getItem("zogoUrlParams");
-  if (stored) {
-    try {
-      return JSON.parse(stored);
-    } catch (e) {
-      console.error("Error parsing stored parameters:", e);
-      return null;
-    }
-  }
-  return null;
-}
-
-function clearStoredParams() {
-  localStorage.removeItem("zogoUrlParams");
-  window.location.href = window.location.pathname;
-}
+const DEFAULT_CONFIG = {
+  userId: "testuser123",
+  locale: "en_US",
+  deepLinkModuleId: null,
+  skillId: null,
+};
 
 function determineFlowType(deepLinkModuleId, skillId) {
   if (deepLinkModuleId) {
@@ -55,59 +26,39 @@ function determineFlowType(deepLinkModuleId, skillId) {
   }
 }
 
-function processURLParameters() {
+function initializeApp() {
   if (initializationState.processing) {
-    console.log("Already processing parameters, skipping...");
+    console.log("Already processing, skipping...");
     return;
   }
 
   initializationState.processing = true;
 
-  let params = getURLParameters();
-  let isFromStorage = false;
+  const userId = DEFAULT_CONFIG.userId;
+  const deepLinkModuleId = DEFAULT_CONFIG.deepLinkModuleId;
+  const skillId = DEFAULT_CONFIG.skillId;
+  const locale = DEFAULT_CONFIG.locale;
 
-  if (Object.keys(params).length === 0) {
-    const storedParams = loadParametersFromStorage();
-    if (storedParams) {
-      params = storedParams;
-      isFromStorage = true;
-      console.log("Loaded parameters from localStorage:", params);
-    }
-  } else {
-    saveParametersToStorage(params);
-  }
+  const flowType = determineFlowType(deepLinkModuleId, skillId);
 
-  const userId = params["id"];
-  const deepLinkModuleId = params["deep_link_module_id"];
-  const skillId = params["skill_id"];
-  const locale = params["locale"];
+  window.urlParameters = {
+    userId: userId,
+    deepLinkModuleId: deepLinkModuleId,
+    skillId: skillId,
+    locale: locale,
+    flowType: flowType,
+    isDeepLink: !!(deepLinkModuleId || skillId),
+  };
 
-  if (userId !== undefined) {
-    const flowType = determineFlowType(deepLinkModuleId, skillId);
+  console.log("Using config:", window.urlParameters);
 
-    window.urlParameters = {
-      userId: userId,
-      deepLinkModuleId: deepLinkModuleId || null,
-      skillId: skillId || null,
-      locale: locale || "en_US",
-      flowType: flowType,
-      isDeepLink: !!(deepLinkModuleId || skillId),
-      allParams: params,
-      isFromStorage: isFromStorage,
-    };
-
-    console.log("URL Parameters processed:", window.urlParameters);
-
-    createOrUpdateUser(userId, locale);
-  } else {
-    initializationState.processing = false;
-  }
+  createOrUpdateUser(userId, locale);
 }
 
 async function createOrUpdateUser(userId, locale) {
-  const apiUrl = "http://api.zogo.com/sdk/user";
-  const api_id = "Vi3vsMFv";
-  const api_secret = "4VVNcd9F";
+  const apiUrl = "https://api.zogo.com/sdk/user";
+  const username = "Vi3vsMFv";
+  const password = "4VVNcd9F";
 
   const midpoint = Math.ceil(userId.length / 2);
   const firstName = userId.substring(0, midpoint);
@@ -137,13 +88,13 @@ async function createOrUpdateUser(userId, locale) {
     console.log("Making API request to:", apiUrl);
     console.log("Request body:", requestBody);
 
-    const credentials = btoa(`${api_id}:${api_secret}`);
+    const credentials = btoa(`${username}:${password}`);
 
     const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Basic ${credentials}`,
+        // Authorization: `Basic ${credentials}`, are credentials required?
       },
       body: JSON.stringify(requestBody),
     });
@@ -196,7 +147,7 @@ async function initializeZogo360(token, deepLinkModuleId, skillId) {
 
     if (zogoComponent._initializationSent) {
       console.warn(
-        "Initialization already sent to this component, skipping duplicate call"
+        "Initialization already sent to this component, skipping duplicate call",
       );
       return;
     }
@@ -253,7 +204,7 @@ async function initializeZogo360(token, deepLinkModuleId, skillId) {
         messageStats.AUTH_TOKEN_PROCESSED++;
         console.warn(
           `AUTH_TOKEN_PROCESSED message #${messageStats.AUTH_TOKEN_PROCESSED}:`,
-          e.detail
+          e.detail,
         );
       }
 
@@ -266,7 +217,7 @@ async function initializeZogo360(token, deepLinkModuleId, skillId) {
 
       console.log(
         `[Message ${messageStats.total}] Type: ${messageType}`,
-        e.detail
+        e.detail,
       );
     });
 
@@ -277,7 +228,7 @@ async function initializeZogo360(token, deepLinkModuleId, skillId) {
   } catch (error) {
     console.error("Failed to initialize Zogo 360:", error);
     alert(
-      "Failed to initialize Zogo 360 component. Check console for details."
+      "Failed to initialize Zogo 360 component. Check console for details.",
     );
   } finally {
     initializationState.processing = false;
@@ -285,15 +236,8 @@ async function initializeZogo360(token, deepLinkModuleId, skillId) {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  console.log("DOMContentLoaded - Processing URL parameters");
-  processURLParameters();
-});
-
-window.addEventListener("popstate", (event) => {
-  console.log("Popstate event fired", event);
-  if (!initializationState.desktop) {
-    processURLParameters();
-  }
+  console.log("DOMContentLoaded - Initializing app");
+  initializeApp();
 });
 
 window.resetZogoInitialization = function () {
